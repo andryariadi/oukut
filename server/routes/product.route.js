@@ -8,4 +8,8 @@ router.get("/", protectRoute, adminRoute, Controller.getAllProducts);
 
 router.get("/featured", Controller.getFeaturedProducts);
 
+router.post("/", protectRoute, adminRoute, Controller.createProduct);
+
+router.post("/:id", protectRoute, adminRoute, Controller.deleteProduct);
+
 export default router;

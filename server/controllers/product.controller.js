@@ -1,3 +1,4 @@
+import cloudinary from "../libs/cloudinary.js";
 import { redis } from "../libs/redis.js";
 import Product from "../models/product.model.js";
 
@@ -23,7 +24,63 @@ class Controller {
 
       // store in redis
       await redis.set("featuredProducts", JSON.stringify(featuredProduts));
+
       res.status(200).json(featuredProduts);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error!", error: error.message });
+    }
+  }
+
+  static async createProduct(req, res) {
+    const { name, description, price, category, image } = req.body;
+
+    try {
+      let cloudianryResponse = null;
+
+      if (image) {
+        cloudianryResponse = await cloudinary.uploader.upload(image, {
+          folder: "products",
+        });
+      }
+
+      const product = await Product.create({
+        name,
+        description,
+        price,
+        image: cloudianryResponse?.secure_url ? cloudianryResponse?.secure_url : "",
+        category,
+      });
+
+      res.status(201).json({ product, message: "Product created successfully!" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error!", error: error.message });
+    }
+  }
+
+  static async deleteProduct(req, res) {
+    const { id } = req.params;
+
+    try {
+      const product = await Product.findById(id);
+
+      if (!product) return res.status(404).json({ message: "Product not found!" });
+
+      if (product.image) {
+        const publicId = product.image.split("/").pop().split(".")[0];
+
+        try {
+          await cloudinary.uploader.destroy(`products/${publicId}`);
+          console.log("deleted image from cloudinary!");
+        } catch (error) {
+          console.log("error deleting image from cloudinary", error);
+        }
+      }
+
+      await Product.findByIdAndDelete(id);
+
+      res.status(200).json({ message: "Product deleted successfully!" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal server error!", error: error.message });
