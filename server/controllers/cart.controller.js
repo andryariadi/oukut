@@ -8,7 +8,7 @@ class Controller {
       const products = await Product.find({ _id: { $in: user.cartItems } });
 
       const cartItems = products.map((product) => {
-        const cartItem = user.cartItems.find((item) => item.id === product._id);
+        const cartItem = user.cartItems.find((item) => item.id === product.id);
 
         return { ...product.toJSON(), quantity: cartItem.quantity };
       });
@@ -25,12 +25,12 @@ class Controller {
     const user = req.user;
 
     try {
-      const existingItem = user.Items.find((item) => item.id === productId);
+      const existingItem = user.cartItems.find((item) => item.id === productId);
 
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        user.cartItmes.push(productId);
+        user.cartItmes.push(productId); // Add new item to cart
       }
 
       await user.save();
@@ -48,9 +48,9 @@ class Controller {
 
     try {
       if (!productId) {
-        user.cartItems = [];
+        user.cartItems = []; // Remove all items from cart
       } else {
-        user.cartItems = user.cartItems.filter((item) => item !== productId);
+        user.cartItems = user.cartItems.filter((item) => item.id !== productId); // Remove specific item from cart
       }
 
       await user.save();
@@ -68,18 +68,18 @@ class Controller {
     const user = req.user;
 
     try {
-      const existingItem = user.Items.find((item) => item.id === productId);
+      const existingItem = user.cartItems.find((item) => item.id === productId);
 
       if (existingItem) {
         if (quantity === 0) {
-          user.Items = user.Items.filter((item) => item.id !== productId);
+          user.cartItems = user.cartItems.filter((item) => item.id !== productId); // Remove specific item from cart
           await user.save();
-          return res.json(user.Items, { message: "Product removed from cart successfully!" });
+          return res.json(user.cartItems, { message: "Product removed from cart successfully!" });
         }
 
-        existingItem.quantity = quantity;
+        existingItem.quantity = quantity; // Update quantity
         await user.save();
-        return res.json(user.Items, { message: "Product quantity updated successfully!" });
+        return res.json(user.cartItems, { message: "Product quantity updated successfully!" });
       } else {
         return res.status(404).json({ message: "Product not found in cart!" });
       }
