@@ -7,6 +7,7 @@ import productRoutes from "./routes/product.route.js";
 import cartRoutes from "./routes/cart.route.js";
 import couponRoutes from "./routes/coupon.route.js";
 import paymentRoutes from "./routes/payment.route.js";
+import analyticRoutes from "./routes/analytic.route.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/analytics", analyticRoutes);
 
 app.listen(port, () => {
   connectToMongoDB();
