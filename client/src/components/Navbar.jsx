@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const Navbar = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
-  const user = true;
+  const user = false;
   const isAdmin = true;
 
   const handleMouseEnter = (icon) => {
@@ -20,8 +20,8 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-transparent bg-opacity-90 backdrop-blur-md shadow-lg border-b border-emerald-800">
-      <div className="container mx-auto px-20 py-4">
+    <header className="fixed top-0 left-0 w-full h-[5rem] flex items-center bg-transparent bg-opacity-90 backdrop-blur-md shadow-lg border-b border-emerald-800">
+      <div className="container mx-auto px-20">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="max-h-[5rem] hover:scale-105 transition-all duration-300">
@@ -65,14 +65,14 @@ const Navbar = () => {
             <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("auth")} onMouseLeave={handleMouseLeave}>
               {user ? (
                 <>
-                  <Link to="/" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
+                  <Link to="/login" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
                     <RiLogoutCircleRLine size={24} />
                   </Link>
                   {hoveredIcon === "auth" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Logout</div>}
                 </>
               ) : (
                 <>
-                  <Link to="/" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
+                  <Link to="/signup" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
                     <RiLogoutCircleLine size={24} />
                   </Link>
                   {hoveredIcon === "auth" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Signup</div>}
