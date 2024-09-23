@@ -113,6 +113,17 @@ class Controller {
       res.status(500).json({ message: "Internal server error!", error: error.message });
     }
   }
+
+  static async getProfile(req, res) {
+    const user = req.user;
+
+    try {
+      res.json(user);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error!", error: error.message });
+    }
+  }
 }
 
 export default Controller;
