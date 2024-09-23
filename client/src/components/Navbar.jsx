@@ -3,10 +3,13 @@ import { BiHomeSmile } from "react-icons/bi";
 import { PiShoppingCartSimple } from "react-icons/pi";
 import { RxDashboard } from "react-icons/rx";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { RiLogoutCircleLine } from "react-icons/ri";
 import { useState } from "react";
 
 const Navbar = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  const user = true;
+  const isAdmin = true;
 
   const handleMouseEnter = (icon) => {
     setHoveredIcon(icon);
@@ -18,7 +21,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full bg-transparent bg-opacity-90 backdrop-blur-md shadow-lg border-b border-emerald-800">
-      <div className="container mx-auto px-10 py-3">
+      <div className="container mx-auto px-20 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="max-h-[5rem] hover:scale-105 transition-all duration-300">
@@ -29,34 +32,52 @@ const Navbar = () => {
           <nav className="flex items-center gap-5 text-logo">
             {/* Home Icon with Tooltip */}
             <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("home")} onMouseLeave={handleMouseLeave}>
-              <Link to="/" className="flex items-center gap-1 hover:scale-105 transition-all duration-300">
-                <BiHomeSmile size={24} />
+              <Link to="/" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
+                <BiHomeSmile size={26} />
               </Link>
               {hoveredIcon === "home" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Home</div>}
             </div>
 
             {/* Dashboard Icon with Tooltip */}
-            <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("dashboard")} onMouseLeave={handleMouseLeave}>
-              <Link to="/" className="flex items-center gap-1 hover:scale-105 transition-all duration-300">
-                <RxDashboard size={24} />
-              </Link>
-              {hoveredIcon === "dashboard" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Dashboard</div>}
-            </div>
+            {isAdmin && (
+              <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("dashboard")} onMouseLeave={handleMouseLeave}>
+                <Link to="/" className="flex items-center gap-1 hover:scale-110 hover:rotate-180 transition-all duration-500">
+                  <RxDashboard size={26} />
+                </Link>
+                {hoveredIcon === "dashboard" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Dashboard</div>}
+              </div>
+            )}
 
             {/* Shopping Cart Icon with Tooltip */}
-            <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("cart")} onMouseLeave={handleMouseLeave}>
-              <Link to="/" className="hover:scale-105 transition-all duration-300">
-                <PiShoppingCartSimple size={24} />
-              </Link>
-              {hoveredIcon === "cart" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Cart</div>}
-            </div>
+            {user && (
+              <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("cart")} onMouseLeave={handleMouseLeave}>
+                <Link to="/" className="hover:scale-110 transition-all duration-300">
+                  <PiShoppingCartSimple size={26} />
+                </Link>
+                {hoveredIcon === "cart" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Cart</div>}
+                <div className="absolute -top-2 -right-2 bg-rose-600 size-5 flex items-center justify-center rounded-full">
+                  <span className="text-sm text-white">3</span>
+                </div>
+              </div>
+            )}
 
             {/* Logout Icon with Tooltip */}
-            <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("logout")} onMouseLeave={handleMouseLeave}>
-              <Link to="/" className="flex items-center gap-1 hover:scale-105 transition-all duration-300">
-                <RiLogoutCircleRLine size={24} />
-              </Link>
-              {hoveredIcon === "logout" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Logout</div>}
+            <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("auth")} onMouseLeave={handleMouseLeave}>
+              {user ? (
+                <>
+                  <Link to="/" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
+                    <RiLogoutCircleRLine size={24} />
+                  </Link>
+                  {hoveredIcon === "auth" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Logout</div>}
+                </>
+              ) : (
+                <>
+                  <Link to="/" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
+                    <RiLogoutCircleLine size={24} />
+                  </Link>
+                  {hoveredIcon === "auth" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Signup</div>}
+                </>
+              )}
             </div>
           </nav>
         </div>
