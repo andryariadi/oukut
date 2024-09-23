@@ -15,12 +15,14 @@ function App() {
           </div>
         </div>
 
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
+        <div className="b-amber-700 relative z-50">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </div>
       </main>
     </>
   );
