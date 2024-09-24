@@ -8,11 +8,13 @@ import FloatingShape from "../components/FloatingShape";
 import InputField from "../components/InputField";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../stores/useUserStore";
 
 const SignupPage = () => {
-  const isLoading = false;
   const [openPass, setOpenPass] = useState(false);
   const [openConfirmPass, setOpenConfirmPass] = useState(false);
+
+  const { loading, signup } = useUserStore();
 
   const [input, setInput] = useState({
     username: "",
@@ -31,6 +33,7 @@ const SignupPage = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
+    signup(input);
   };
   return (
     <div className="relative h-[calc(100vh-5rem)] overflow-hidden flex items-center justify-center">
@@ -82,9 +85,9 @@ const SignupPage = () => {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Sign Up"}
+              {loading ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Sign Up"}
             </motion.button>
           </form>
         </div>

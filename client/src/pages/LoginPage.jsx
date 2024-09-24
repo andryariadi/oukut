@@ -8,10 +8,11 @@ import FloatingShape from "../components/FloatingShape";
 import InputField from "../components/InputField";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../stores/useUserStore";
 
 const LoginPage = () => {
-  const isLoading = false;
   const [openPass, setOpenPass] = useState(false);
+  const { loading, login } = useUserStore();
 
   const [input, setInput] = useState({
     email: "",
@@ -28,6 +29,7 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    login(input);
   };
   return (
     <div className="relative h-[calc(100vh-5rem)] overflow-hidden flex items-center justify-center">
@@ -71,9 +73,9 @@ const LoginPage = () => {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Login"}
+              {loading ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Login"}
             </motion.button>
           </form>
         </div>
