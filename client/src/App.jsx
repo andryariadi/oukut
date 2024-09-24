@@ -1,11 +1,36 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
+import { useUserStore } from "./stores/useUserStore";
+import { useEffect } from "react";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
+  const { user, checkAuth, checkingAuth } = useUserStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  useEffect(() => {
+    if (user === null && !checkingAuth) {
+      if (location.pathname === "/signup") {
+        navigate("/signup");
+      } else {
+        navigate("/login");
+      }
+    }
+  }, [user, checkingAuth, navigate, location.pathname]);
+
+  if (checkingAuth) return <LoadingSpinner />;
+
+  console.log(user, "<---dihomepage");
+
   return (
     <>
       <main className="min-h-screen relative bg-gray-900 text-white overflowhidden">
@@ -20,8 +45,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={!user ? <SignupPage /> : <Navigate to="/" />} />
+            <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
           </Routes>
         </div>
 

@@ -124,6 +124,16 @@ class Controller {
       res.status(500).json({ message: "Internal server error!", error: error.message });
     }
   }
+
+  static async deleteAllUser(req, res) {
+    try {
+      await User.deleteMany();
+      res.status(200).json({ message: "All users deleted successfully!" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error!", error: error.message });
+    }
+  }
 }
 
 export default Controller;

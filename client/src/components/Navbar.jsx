@@ -5,11 +5,12 @@ import { RxDashboard } from "react-icons/rx";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useState } from "react";
+import { useUserStore } from "../stores/useUserStore";
 
 const Navbar = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
-  const user = false;
-  const isAdmin = true;
+  const { user, logout } = useUserStore();
+  const isAdmin = user?.role === "admin";
 
   const handleMouseEnter = (icon) => {
     setHoveredIcon(icon);
@@ -18,6 +19,8 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     setHoveredIcon(null);
   };
+
+  console.log(user, "<---dinavbar");
 
   return (
     <header className="fixed top-0 left-0 w-full h-[5rem] flex items-center bg-transparent bg-opacity-90 backdrop-blur-md shadow-lg border-b border-emerald-800">
@@ -65,7 +68,7 @@ const Navbar = () => {
             <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("auth")} onMouseLeave={handleMouseLeave}>
               {user ? (
                 <>
-                  <Link to="/login" className="flex items-center gap-1 hover:scale-110 transition-all duration-300">
+                  <Link to="/login" className="flex items-center gap-1 hover:scale-110 transition-all duration-300" onClick={logout}>
                     <RiLogoutCircleRLine size={24} />
                   </Link>
                   {hoveredIcon === "auth" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Logout</div>}

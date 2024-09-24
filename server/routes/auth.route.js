@@ -13,4 +13,6 @@ router.post("/logout", Controller.logout);
 router.post("/refresh-token", Controller.refreshToken);
 
 router.get("/profile", protectRoute, Controller.getProfile);
+
+router.delete("/delete", protectRoute, Controller.deleteAllUser);
 export default router;
