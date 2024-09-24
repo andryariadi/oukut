@@ -9,28 +9,36 @@ import InputField from "../components/InputField";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+  email: z.string().min(1, { message: "Email is required!" }).email({ message: "Please provide a valid email!" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters long!" }),
+});
 
 const LoginPage = () => {
   const [openPass, setOpenPass] = useState(false);
-  const { loading, login } = useUserStore();
+  const { login } = useUserStore();
 
-  const [input, setInput] = useState({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInput((prevInput) => ({
-      ...prevInput,
-      [name]: value,
-    }));
+  const dataEmail = { ...register("email") };
+  const dataPassword = { ...register("password") };
+
+  const handleLogin = (data) => {
+    login(data);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(input);
-  };
+  console.log(isSubmitting, "<---diloginpage");
+
   return (
     <div className="relative h-[calc(100vh-5rem)] overflow-hidden flex items-center justify-center">
       {/* Floating Shape */}
@@ -43,26 +51,30 @@ const LoginPage = () => {
         <div className="p-8 flex flex-col gap-5">
           <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">Welcome Back</h2>
 
-          <form onSubmit={handleLogin} className="flex flex-col gap-6">
-            <div className="bg-ros-500 flex flex-col gap-4">
-              <InputField icon={<IoMailOutline size={22} />} type="email" placeholder="Email" name="email" value={input.email} onChange={handleChange} />
+          <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col gap-6">
+            <div className="bg-ros-500 flex flex-col gap-9">
+              <div className="relative">
+                <InputField icon={<IoMailOutline size={22} />} type="email" placeholder="Email" propData={dataEmail} />
 
-              <InputField
-                icon={<Lock size={22} />}
-                passIcon={openPass ? <PiEye size={22} /> : <RiEyeCloseFill size={22} />}
-                openPass={openPass}
-                setOpenPass={setOpenPass}
-                type={openPass ? "text" : "password"}
-                placeholder="Password"
-                name="password"
-                value={input.password}
-                onChange={handleChange}
-              />
+                {errors.email && <p className="text-red-500 text-sm absolute -bottom-6">{errors.email.message}</p>}
+              </div>
+
+              <div className="relative">
+                <InputField
+                  icon={<Lock size={22} />}
+                  passIcon={openPass ? <PiEye size={22} /> : <RiEyeCloseFill size={22} />}
+                  openPass={openPass}
+                  setOpenPass={setOpenPass}
+                  type={openPass ? "text" : "password"}
+                  placeholder="Password"
+                  propData={dataPassword}
+                />
+
+                {errors.password && <p className="text-red-500 text-sm absolute -bottom-6">{errors.password.message}</p>}
+              </div>
             </div>
 
-            {/* {error && <p className="text-red-500">{error}</p>} */}
-
-            <div>
+            <div className="mt-3">
               <Link to="" className="text-green-500 text-sm inline-block hover:scale-105 transition-all duration-300">
                 Forgot Password?
               </Link>
@@ -73,9 +85,9 @@ const LoginPage = () => {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              disabled={loading}
+              disabled={isSubmitting}
             >
-              {loading ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Login"}
+              {isSubmitting ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Login"}
             </motion.button>
           </form>
         </div>

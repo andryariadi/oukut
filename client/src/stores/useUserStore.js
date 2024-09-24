@@ -43,7 +43,7 @@ export const useUserStore = create((set) => ({
   },
 
   login: async ({ email, password }) => {
-    set({ loading: true });
+    // set({ loading: true });
 
     try {
       const res = await axios.post("/auth/login", {

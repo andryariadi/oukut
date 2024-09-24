@@ -1,4 +1,4 @@
-const InputField = ({ icon, passIcon, openPass, setOpenPass, type, ...props }) => {
+const InputField = ({ icon, passIcon, openPass, setOpenPass, type, propData, ...props }) => {
   return (
     <div className="relative">
       {/* Left icon */}
@@ -13,6 +13,7 @@ const InputField = ({ icon, passIcon, openPass, setOpenPass, type, ...props }) =
 
       {/* Input field */}
       <input
+        {...propData}
         {...props}
         type={type}
         className="w-full py-3 pl-11 pr-11 bg-gray-800 bg-opacity-50 rounded-lg outline-none border border-gray-700 focus:border-green-500 text-white placeholder:text-sm placeholder-gray-400 placeholder-opacity-50 transition-all duration-300"
