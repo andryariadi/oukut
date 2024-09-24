@@ -9,6 +9,16 @@ import InputField from "../components/InputField";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const signupSchema = z.object({
+  username: z.string().min(1, { message: "Username is required!" }),
+  email: z.string().min(1, { message: "Email is required!" }).email({ message: "Please provide a valid email!" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters long!" }),
+  confirmPassword: z.string().min(6, { message: "Password must be at least 6 characters long!" }),
+});
 
 const SignupPage = () => {
   const [openPass, setOpenPass] = useState(false);
@@ -16,25 +26,23 @@ const SignupPage = () => {
 
   const { loading, signup } = useUserStore();
 
-  const [input, setInput] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signupSchema),
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInput((prevInput) => ({
-      ...prevInput,
-      [name]: value,
-    }));
+  const dataUsername = { ...register("username") };
+  const dataEmail = { ...register("email") };
+  const dataPassword = { ...register("password") };
+  const dataConfirmPassword = { ...register("confirmPassword") };
+
+  const handleSignup = (data) => {
+    signup(data);
   };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    signup(input);
-  };
   return (
     <div className="relative h-[calc(100vh-5rem)] overflow-hidden flex items-center justify-center">
       {/* Floating Shape */}
@@ -47,41 +55,51 @@ const SignupPage = () => {
         <div className="p-8 flex flex-col gap-5">
           <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">Create Account</h2>
 
-          <form onSubmit={handleSignup} className="flex flex-col gap-6">
-            <div className="bg-ros-500 flex flex-col gap-4">
-              <InputField icon={<UserRound size={22} />} type="text" placeholder="Username" name="username" value={input.username} onChange={handleChange} />
+          <form onSubmit={handleSubmit(handleSignup)} className="flex flex-col gap-6">
+            <div className="bg-ros-500 flex flex-col gap-8">
+              <div className="relative">
+                <InputField icon={<UserRound size={22} />} type="text" placeholder="Username" propData={dataUsername} />
 
-              <InputField icon={<IoMailOutline size={22} />} type="email" placeholder="Email" name="email" value={input.email} onChange={handleChange} />
+                {errors.username && <p className="absolute -bottom-5 text-red-500 text-sm">{errors.username.message}</p>}
+              </div>
 
-              <InputField
-                icon={<Lock size={22} />}
-                passIcon={openPass ? <PiEye size={22} /> : <RiEyeCloseFill size={22} />}
-                openPass={openPass}
-                setOpenPass={setOpenPass}
-                type={openPass ? "text" : "password"}
-                placeholder="Password"
-                name="password"
-                value={input.password}
-                onChange={handleChange}
-              />
+              <div className="relative">
+                <InputField icon={<IoMailOutline size={22} />} type="email" placeholder="Email" propData={dataEmail} />
 
-              <InputField
-                icon={<Lock size={22} />}
-                passIcon={openConfirmPass ? <PiEye size={22} /> : <RiEyeCloseFill size={22} />}
-                openPass={openConfirmPass}
-                setOpenPass={setOpenConfirmPass}
-                type={openConfirmPass ? "text" : "password"}
-                placeholder="Confirm Password"
-                name="confirmPassword"
-                value={input.confirmPassword}
-                onChange={handleChange}
-              />
+                {errors.email && <p className="absolute -bottom-5 text-red-500 text-sm">{errors.email.message}</p>}
+              </div>
+
+              <div className="relative">
+                <InputField
+                  icon={<Lock size={22} />}
+                  passIcon={openPass ? <PiEye size={22} /> : <RiEyeCloseFill size={22} />}
+                  openPass={openPass}
+                  setOpenPass={setOpenPass}
+                  type={openPass ? "text" : "password"}
+                  placeholder="Password"
+                  propData={dataPassword}
+                />
+
+                {errors.password && <p className="absolute -bottom-5 text-red-500 text-sm">{errors.password.message}</p>}
+              </div>
+
+              <div className="relative">
+                <InputField
+                  icon={<Lock size={22} />}
+                  passIcon={openConfirmPass ? <PiEye size={22} /> : <RiEyeCloseFill size={22} />}
+                  openPass={openConfirmPass}
+                  setOpenPass={setOpenConfirmPass}
+                  type={openConfirmPass ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  propData={dataConfirmPassword}
+                />
+
+                {errors.confirmPassword && <p className="absolute -bottom-5 text-red-500 text-sm">{errors.confirmPassword.message}</p>}
+              </div>
             </div>
 
-            {/* {error && <p className="text-red-500">{error}</p>} */}
-
             <motion.button
-              className="py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
+              className="py-3 px-4 mt-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.95 }}
               type="submit"

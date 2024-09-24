@@ -2,9 +2,6 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import axios from "../libs/axios";
 import { toastStyle } from "../helper/toastStyle";
-// import axios from "axios";
-
-// axios.defaults.withCredentials = true;
 
 export const useUserStore = create((set) => ({
   user: null,
@@ -43,7 +40,7 @@ export const useUserStore = create((set) => ({
   },
 
   login: async ({ email, password }) => {
-    // set({ loading: true });
+    set({ loading: true });
 
     try {
       const res = await axios.post("/auth/login", {

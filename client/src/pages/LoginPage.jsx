@@ -20,7 +20,7 @@ const loginSchema = z.object({
 
 const LoginPage = () => {
   const [openPass, setOpenPass] = useState(false);
-  const { login } = useUserStore();
+  const { login, loading } = useUserStore();
 
   const {
     register,
@@ -85,9 +85,9 @@ const LoginPage = () => {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              disabled={isSubmitting}
+              disabled={loading}
             >
-              {isSubmitting ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Login"}
+              {loading ? <TbLoader scale={22} className="animate-spin mx-auto" /> : "Login"}
             </motion.button>
           </form>
         </div>
