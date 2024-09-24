@@ -9,14 +9,9 @@ import InputField from "../components/InputField";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const loginSchema = z.object({
-  email: z.string().min(1, { message: "Email is required!" }).email({ message: "Please provide a valid email!" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters long!" }),
-});
+import { loginSchema } from "../validators/validations";
 
 const LoginPage = () => {
   const [openPass, setOpenPass] = useState(false);
