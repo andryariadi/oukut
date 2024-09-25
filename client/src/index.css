@@ -8,3 +8,57 @@
   box-sizing: border-box;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+:root {
+  --background-color: #1a1a1a;
+  --text-color: #eee;
+  --border-radius: 30px;
+}
+
+.card::before {
+  background-color: transparent;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 70px;
+  border-bottom-left-radius: var(--border-radius);
+  box-shadow: -30px 30px 0 var(--background-color);
+}
+
+.card::after {
+  background-color: var(--background-color);
+  /* content: "andry"; */
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 60px;
+  width: calc(40% - 10px);
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: medium;
+}
+
+@container style(--isPopular:true) {
+  .card::after {
+    content: "Popular";
+  }
+
+  .card .more {
+    box-shadow: 0 10px 0 #ff6723;
+  }
+}
+
+@container style(--isNew:true) {
+  .card::after {
+    content: "New";
+  }
+
+  .card .more {
+    box-shadow: 0 10px 0 #00a6ed;
+  }
+}

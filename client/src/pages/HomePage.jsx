@@ -19,7 +19,7 @@ const HomePage = () => {
           <p className="text-xl text-gray-300">Discover the lates trends in eco-friendly fashion</p>
         </div>
 
-        <div className="b-rose-700 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="b-sky-700 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((category) => (
             <CategoryItems key={category.name} category={category} />
           ))}
