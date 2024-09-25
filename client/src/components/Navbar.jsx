@@ -44,7 +44,7 @@ const Navbar = () => {
             {/* Dashboard Icon with Tooltip */}
             {isAdmin && (
               <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("dashboard")} onMouseLeave={handleMouseLeave}>
-                <Link to="/" className="flex items-center gap-1 hover:scale-110 hover:rotate-180 transition-all duration-500">
+                <Link to="/secret-dashboard" className="flex items-center gap-1 hover:scale-110 hover:rotate-180 transition-all duration-500">
                   <RxDashboard size={26} />
                 </Link>
                 {hoveredIcon === "dashboard" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Dashboard</div>}
