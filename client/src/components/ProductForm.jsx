@@ -47,7 +47,7 @@ const ProductForm = () => {
   const handleSubmitProduct = async (data) => {
     console.log(data, "<----disubmitProduct");
 
-    if (!imgUrl) return;
+    // if (!imgUrl) return;
 
     try {
       await createProduct({ ...data, image: imgUrl });
@@ -92,7 +92,7 @@ const ProductForm = () => {
                 name="category"
                 id="category"
                 {...dataCategory}
-                className="w-full pl-4 py-3 bg-gray-800 bg-opacity-50 rounded-lg outline-none border border-gray-700 focus:border-green-500  placeholder:text-sm placeholder-gray-400 placeholder-opacity-50 transition-all duration-300 text-sm text-gray-500"
+                className="w-full pl-4 py-3 bg-gray-800 bg-opacity-50 rounded-lg outline-none border border-gray-700 focus:border-green-500  placeholder:text-sm placeholder-gray-400 placeholder-opacity-50 transition-all duration-300 text-sm text-gray-500 cursor-pointer"
               >
                 <option value="">Select Category</option>
                 {categories.map((category) => (

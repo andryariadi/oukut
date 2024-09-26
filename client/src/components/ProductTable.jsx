@@ -4,7 +4,7 @@ import { PiTrashSimple } from "react-icons/pi";
 import { PiStarThin } from "react-icons/pi";
 
 const ProductTable = () => {
-  const { products } = useProductStore();
+  const { products, toggleProductFeatured, deleteProduct } = useProductStore();
 
   console.log(products, "<----ditableProducts");
 
@@ -21,12 +21,12 @@ const ProductTable = () => {
           </tr>
         </thead>
         <tbody className="bg-gray-800 divide-y divide-gray-700">
-          {products.map((product) => (
+          {products?.map((product) => (
             <tr key={product._id} className="hover:bg-gray-900 transition-all duration-300 text-sm text-gray-300">
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="b-sky-600 flex items-center gap-2">
                   <div className="flex items-center justify-center size-12 border border-gray-500 rounded-full">
-                    <img src={product.image} alt={product.name} className="size-12 rounded-full object-cover" />
+                    <img src={product.image} alt={product.name} className="size-12 rounded-full object-cover hover:scale-125 transition-all duration-300" />
                   </div>
                   <p className="text-sm font-medium text-white">{product.name}</p>
                 </div>
@@ -38,12 +38,12 @@ const ProductTable = () => {
                 <p>{product.category}</p>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <button className={`${product.isFeatured ? "bg-amber-400" : "bg-gray-500"} p-1 rounded-full`}>
+                <button onClick={() => toggleProductFeatured(product._id)} className={`${product.isFeatured ? "bg-amber-400" : "bg-gray-500"} p-1 rounded-full hover:bg-amber-400 transition-all duration-300`}>
                   <PiStarThin size={20} className="text-gray-900 hover:scale-110 transition-all duration-300" />
                 </button>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <button>
+                <button onClick={() => deleteProduct(product._id)}>
                   <PiTrashSimple size={20} className="text-rose-500 hover:scale-110 transition-all duration-300" />
                 </button>
               </td>

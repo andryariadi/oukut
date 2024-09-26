@@ -103,11 +103,11 @@ class Controller {
 
       if (product) {
         product.isFeatured = !product.isFeatured;
-        const updatedProdut = await product.save();
+        const updatedProduct = await product.save();
 
-        await updateFeaturedProductsCache();
+        await Controller.updateFeaturedProductsCache();
 
-        res.status(200).json({ updatedProdut, message: "Product featured status updated successfully!" });
+        res.status(200).json({ updatedProduct, message: "Product featured status updated successfully!" });
       }
     } catch (error) {
       console.log(error);
@@ -115,7 +115,7 @@ class Controller {
     }
   }
 
-  static async updateFeaturedProductsCache(req, res) {
+  static async updateFeaturedProductsCache() {
     try {
       const featuredProducts = await Product.find({ isFeatured: true }).lean();
 

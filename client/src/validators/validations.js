@@ -17,5 +17,4 @@ export const productShema = z.object({
   description: z.string().min(1, { message: "Product description is required!" }),
   price: z.string().min(1, { message: "Product price is required!" }),
   category: z.string().min(1, { message: "Product category is required!" }),
-  image: z.string().min(1, { message: "Product image is required!" }),
 });

@@ -50,4 +50,42 @@ export const useProductStore = create((set) => ({
       });
     }
   },
+
+  toggleProductFeatured: async (productId) => {
+    set({ loading: true });
+
+    try {
+      const res = await axios.patch(`/products/${productId}`);
+      console.log(res, "<---ditoggleProduct");
+
+      set((prevProducts) => ({
+        products: prevProducts.products.map((product) => (product._id === productId ? { ...product, isFeatured: res.data.updatedProduct.isFeatured } : product)),
+        loading: false,
+      }));
+    } catch (error) {
+      set({ loading: false });
+      console.log(error);
+      toast.error(error.response.data.error || "Something went wrong!", {
+        style: toastStyle,
+      });
+    }
+  },
+
+  deleteProduct: async (productId) => {
+    set({ loading: true });
+
+    try {
+      await axios.delete(`/products/${productId}`);
+      set((prevProducts) => ({
+        products: prevProducts.products.filter((product) => product._id !== productId),
+        loading: false,
+      }));
+    } catch (error) {
+      set({ laoding: false });
+      console.log(error);
+      toast.error(error.response.data.error || "Something went wrong!", {
+        style: toastStyle,
+      });
+    }
+  },
 }));
