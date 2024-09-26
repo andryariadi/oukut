@@ -33,4 +33,21 @@ export const useProductStore = create((set) => ({
       });
     }
   },
+
+  fetchAllProducts: async () => {
+    set({ loading: true });
+
+    try {
+      const res = await axios.get("/products");
+      console.log(res, "<----difetchProducts");
+
+      set({ products: res.data.products, loading: false });
+    } catch (error) {
+      set({ loading: false });
+      console.log(error);
+      toast.error(error.response.data.error || "Something went wrong!", {
+        style: toastStyle,
+      });
+    }
+  },
 }));

@@ -47,6 +47,8 @@ const ProductForm = () => {
   const handleSubmitProduct = async (data) => {
     console.log(data, "<----disubmitProduct");
 
+    if (!imgUrl) return;
+
     try {
       await createProduct({ ...data, image: imgUrl });
       reset();
@@ -62,7 +64,7 @@ const ProductForm = () => {
         <h2 className="text-xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">Create New Product</h2>
 
         <form onSubmit={handleSubmit(handleSubmitProduct)} className="flex flex-col gap-6">
-          <div className="bg-ros-500 flex flex-col gap-5">
+          <div className="bg-ros-500 flex flex-col gap-8">
             <div className="relative">
               <InputField type="text" placeholder="Product Name" propData={dataName} />
               {errors.name && <p className="text-red-500 text-sm absolute -bottom-6">{errors.name.message}</p>}
