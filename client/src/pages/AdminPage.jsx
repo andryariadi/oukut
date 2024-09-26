@@ -14,14 +14,14 @@ const tabs = [
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
   return (
-    <div className="b-sky-700 min-h-screen flex flex-col items-center justify-center gap-8">
+    <div className="b-sky-700 min-h-screen py-5 flex flex-col items-center justify-center gap-8">
       {/* Title */}
       <motion.h1 className="text-4xl font-bold text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
         Admin Dashboard
       </motion.h1>
 
       {/* Navbar */}
-      <div className="b-amber-600 flex items-center justify-center gap-5">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="b-amber-600 flex items-center justify-center gap-5">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -32,7 +32,7 @@ const AdminPage = () => {
             <span>{tab.label}</span>
           </button>
         ))}
-      </div>
+      </motion.div>
 
       {/* Content */}
       {activeTab === "create" && <ProductForm />}
