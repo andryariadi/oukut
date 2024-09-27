@@ -13,6 +13,7 @@ const categories = ["jeans", "t-shirts", "shoes", "glasses", "jackets", "suits",
 
 const ProductForm = () => {
   const [imgUrl, setImgUrl] = useState("");
+  const [errorImg, setErrorImg] = useState("");
 
   const { createProduct, loading } = useProductStore();
 
@@ -47,7 +48,9 @@ const ProductForm = () => {
   const handleSubmitProduct = async (data) => {
     console.log(data, "<----disubmitProduct");
 
-    // if (!imgUrl) return;
+    if (!imgUrl) {
+      return setErrorImg("Please select an image");
+    }
 
     try {
       await createProduct({ ...data, image: imgUrl });
@@ -114,6 +117,7 @@ const ProductForm = () => {
                 <span>Upload Image</span>
               </label>
               {imgUrl && <img src={imgUrl} alt="Image Preview" className="size-12" />}
+              {errorImg && <p className="text-red-500 text-sm absolute -bottom-6">{errorImg}</p>}
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { IoIosCart } from "react-icons/io";
 
-const CardItems = () => {
+const CardItems = ({ product }) => {
+  const category = product.category;
   return (
     <article className="card b-rose-700 relative text-[#eee] w-[320px]" style={{ "--isNew": "true" }}>
       <div className="author bg-[#1a1a1a] w-[60%] h-[70px] grid grid-cols-[50px_1fr] gap-[20px] p-[10px] rounded-t-[30px]">
@@ -12,11 +13,11 @@ const CardItems = () => {
           <span className="text-sm">Store</span>
         </div>
       </div>
-      <div className="image bg-[#1a1a1a] flex items-center justify-center rounded-tr-[30px] py-10">
-        <img src="/nike.webp" alt="Shoes" className="w-[90%] rotate-[-15deg] hover:rotate-[-25deg] hover:scale-105 transition-all duration-300 ease-out" />
+      <div className="image bg-[#1a1a1a] flex items-center justify-center rounded-tr-[30px] overflow-hidden">
+        <img src={product.image} alt={product.name} className={`w-[90%] max-h-[20rem] ${category === "shoes" ? "hover:rotate-[-25deg] hover:scale-105" : ""} transition-all duration-300 ease-out`} />
       </div>
       <div className="info bg-[#1a1a1a] text-center px-10">
-        <p className="title text-[1.5em] whitespace-nowrap">Nike Retro Premium</p>
+        <p className="title text-[1.5em] whitespace-nowrap">{product.name}</p>
       </div>
       <div className="more bg-[#1a1a1a] flex items-center justify-between px-5 py-5 rounded-b-[30px]">
         <button className="cart flex items-center gap-2">
@@ -25,7 +26,7 @@ const CardItems = () => {
           </div>
           <span>Buy Now</span>
         </button>
-        <p className="price">$11.200</p>
+        <p className="price">${product.price}</p>
       </div>
     </article>
   );
