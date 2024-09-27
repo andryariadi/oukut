@@ -12,22 +12,22 @@ import CategoryPage from "./pages/CategoryPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  useEffect(() => {
-    if (user === null && !checkingAuth) {
-      if (location.pathname === "/signup") {
-        navigate("/signup");
-      } else {
-        navigate("/login");
-      }
-    }
-  }, [user, checkingAuth, navigate, location.pathname]);
+  // useEffect(() => {
+  //   if (user === null && !checkingAuth) {
+  //     if (location.pathname === "/signup") {
+  //       navigate("/signup");
+  //     } else {
+  //       navigate("/login");
+  //     }
+  //   }
+  // }, [user, checkingAuth, navigate, location.pathname]);
 
   if (checkingAuth) return <LoadingSpinner />;
 

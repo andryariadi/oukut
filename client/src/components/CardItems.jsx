@@ -1,12 +1,23 @@
 import { IoIosCart } from "react-icons/io";
+import { useUserStore } from "../stores/useUserStore";
+import toast from "react-hot-toast";
+import { toastStyle } from "../helper/toastStyle";
 
 const CardItems = ({ product }) => {
-  const category = product.category;
+  const { user } = useUserStore();
 
-  // Membuat custom property name berdasarkan category
+  const category = product.category;
   const customPropertyName = `--is${category.charAt(0).toUpperCase() + category.slice(1)}`;
 
-  console.log(customPropertyName, "<---dicarditems");
+  const handleAddToCart = () => {
+    if (!user) {
+      toast.error("Please login to add product to cart!", {
+        id: "login",
+        style: toastStyle,
+      });
+      return;
+    }
+  };
 
   return (
     <article className="card b-rose-700 relative text-[#eee] w-[320px]" style={{ [customPropertyName]: "true" }}>
@@ -26,9 +37,9 @@ const CardItems = ({ product }) => {
         <p className="title text-[1.5em] whitespace-nowrap">{product.name}</p>
       </div>
       <div className="more bg-[#1a1a1a] flex items-center justify-between px-5 py-5 rounded-b-[30px]">
-        <button className="cart flex items-center gap-2">
-          <div className="bg-zinc-900 size-10 flex items-center justify-center rounded-full border border-gray-700">
-            <IoIosCart size={24} />
+        <button onClick={handleAddToCart} className="cart flex items-center gap-2">
+          <div className="bg-zinc-900 size-10 flex items-center justify-center rounded-full border border-gray-700 hover:border-logo transition-all duration-300">
+            <IoIosCart size={24} className="hover:text-logo hover:scale-110 transition-all duration-300" />
           </div>
           <span>Buy Now</span>
         </button>
