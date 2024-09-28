@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -10,15 +10,22 @@ import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
+import { useCartStore } from "./stores/useCartStore";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
+  const { getCartItems } = useCartStore();
+
   // const navigate = useNavigate();
   // const location = useLocation();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  useEffect(() => {
+    getCartItems();
+  }, [getCartItems]);
 
   // useEffect(() => {
   //   if (user === null && !checkingAuth) {
