@@ -30,7 +30,7 @@ class Controller {
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        user.cartItmes.push(productId); // Add new item to cart
+        user.cartItems.push(productId); // Add new item to cart
       }
 
       await user.save();

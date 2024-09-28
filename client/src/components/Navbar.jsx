@@ -6,11 +6,14 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
+import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const { user, logout } = useUserStore();
   const isAdmin = user?.role === "admin";
+
+  const { cart } = useCartStore();
 
   const handleMouseEnter = (icon) => {
     setHoveredIcon(icon);
@@ -59,7 +62,7 @@ const Navbar = () => {
                 </Link>
                 {hoveredIcon === "cart" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Cart</div>}
                 <div className="absolute -top-2 -right-2 bg-rose-600 size-5 flex items-center justify-center rounded-full">
-                  <span className="text-sm text-white">3</span>
+                  <span className="text-sm text-white">{cart.length}</span>
                 </div>
               </div>
             )}

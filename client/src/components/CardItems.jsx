@@ -2,9 +2,11 @@ import { IoIosCart } from "react-icons/io";
 import { useUserStore } from "../stores/useUserStore";
 import toast from "react-hot-toast";
 import { toastStyle } from "../helper/toastStyle";
+import { useCartStore } from "../stores/useCartStore";
 
 const CardItems = ({ product }) => {
   const { user } = useUserStore();
+  const { addToCart } = useCartStore();
 
   const category = product.category;
   const customPropertyName = `--is${category.charAt(0).toUpperCase() + category.slice(1)}`;
@@ -16,6 +18,8 @@ const CardItems = ({ product }) => {
         style: toastStyle,
       });
       return;
+    } else {
+      addToCart(product);
     }
   };
 

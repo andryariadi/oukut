@@ -31,6 +31,7 @@ export const useCartStore = create((set, get) => ({
       await axios.post("/cart", { productId: product._id });
       toast.success("Product added to cart successfully!", {
         style: toastStyle,
+        position: "bottom-right",
       });
 
       set((prevState) => {
