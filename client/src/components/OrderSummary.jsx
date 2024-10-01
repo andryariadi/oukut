@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { useCartStore } from "../stores/useCartStore";
 
 const OrderSummary = () => {
+  const { total, subtotal, coupon, isCouponApplied } = useCartStore();
+
+  const savings = subtotal - total;
+  //   const savings = 100;
+
+  const formattedTotal = total.toFixed(2);
+  const formattedSubtotal = subtotal.toFixed(2);
+  const formattedSavings = savings.toFixed(2);
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-green-800 space-y-5 w-full max-w-md">
       {/* Order Summary */}
@@ -14,13 +23,27 @@ const OrderSummary = () => {
           {/* Original Price */}
           <div className="flex items-center justify-between py-3 border-b border-gray-700">
             <span className="text-gray-400">Original price</span>
-            <span>$100</span>
+            <span>${formattedSubtotal}</span>
           </div>
+
+          {savings > 0 && (
+            <dl className="flex items-center justify-between gap-4">
+              <dt className="text-base font-normal text-gray-300">Savings</dt>
+              <dd className="text-base font-medium text-emerald-400">-${formattedSavings}</dd>
+            </dl>
+          )}
+
+          {coupon && isCouponApplied && (
+            <dl className="flex items-center justify-between gap-4">
+              <dt className="text-base font-normal text-gray-300">Coupon ({coupon.code})</dt>
+              <dd className="text-base font-medium text-emerald-400">-{coupon.discountPercentage}%</dd>
+            </dl>
+          )}
 
           {/* Total Price */}
           <div className="flex items-center justify-between py-3">
             <span>Total</span>
-            <span className="text-emerald-400">$100</span>
+            <span className="text-emerald-400">${formattedTotal}</span>
           </div>
         </div>
 

@@ -34,12 +34,15 @@ const CardProduct = ({ product }) => {
           <span className="text-sm">Store</span>
         </div>
       </div>
-      <div className="image bg-[#1a1a1a] flex items-center justify-center rounded-tr-[30px] overflow-hidden">
-        <img src={product.image} alt={product.name} loading="lazy" className={`w-[90%] max-h-[20rem] ${category === "shoes" ? "hover:rotate-[-25deg] hover:scale-105" : ""} transition-all duration-300 ease-out`} />
+
+      <div className="image bg-[#1a1a1a] max-h-[18rem] flex items-center justify-center rounded-tr-[30px] overflow-hidden">
+        <img src={product.image} alt={product.name} loading="lazy" className={`w-[90%] max-h-[20rem] object-cover  ${category === "shoes" ? "hover:rotate-[-25deg] hover:scale-105" : ""} transition-all duration-300 ease-out`} />
       </div>
+
       <div className="info bg-[#1a1a1a] text-center px-10">
         <p className="title text-[1.5em] whitespace-nowrap">{product.name}</p>
       </div>
+
       <div className="more bg-[#1a1a1a] flex items-center justify-between px-5 py-5 rounded-b-[30px]">
         <button onClick={handleAddToCart} className="cart flex items-center gap-2">
           <div className="bg-zinc-900 size-10 flex items-center justify-center rounded-full border border-gray-700 hover:border-logo transition-all duration-300">
