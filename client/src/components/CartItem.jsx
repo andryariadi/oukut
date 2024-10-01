@@ -1,8 +1,11 @@
 import { BsPlus } from "react-icons/bs";
 import { HiMiniMinusSmall } from "react-icons/hi2";
 import { PiTrashSimpleLight } from "react-icons/pi";
+import { useCartStore } from "../stores/useCartStore";
 
 const CartItem = ({ item }) => {
+  const { removeFromCart, updateQuantity } = useCartStore();
+
   console.log(item, "<---dicartItem");
 
   return (
@@ -20,11 +23,17 @@ const CartItem = ({ item }) => {
       </div>
       {/* Right */}
       <div className="b-rose-700 flex flex-col gap-6">
-        <PiTrashSimpleLight size={22} className="self-end text-rose-500 hover:scale-110 transition-all duration-300" />
+        <button onClick={() => removeFromCart(item._id)} className="self-end">
+          <PiTrashSimpleLight size={22} className="text-rose-500 hover:scale-110 transition-all duration-300" />
+        </button>
         <div className="p-1 border border-gray-700 rounded-2xl shadow-xl flex items-center gap-2">
-          <HiMiniMinusSmall size={23} />
-          <span className="text-sm">0</span>
-          <BsPlus size={22} />
+          <button onClick={() => updateQuantity(item._id, item.quantity - 1)}>
+            <HiMiniMinusSmall size={23} />
+          </button>
+          <span className="text-sm">{item.quantity}</span>
+          <button onClick={() => updateQuantity(item._id, item.quantity + 1)}>
+            <BsPlus size={22} />
+          </button>
         </div>
       </div>
     </div>

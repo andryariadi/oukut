@@ -55,7 +55,7 @@ class Controller {
 
       await user.save();
 
-      res.status(200).json(user.cartItems, { message: "Product removed from cart successfully!" });
+      return res.status(200).json({ cartItems: user.cartItems, message: "Product removed from cart successfully!" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal server error!", error: error.message });
@@ -74,14 +74,14 @@ class Controller {
         if (quantity === 0) {
           user.cartItems = user.cartItems.filter((item) => item.id !== productId); // Remove specific item from cart
           await user.save();
-          return res.json(user.cartItems, { message: "Product removed from cart successfully!" });
+          return res.json({ cartItems: user.cartItems, message: "Product removed from cart successfully!" });
         }
 
         existingItem.quantity = quantity; // Update quantity
         await user.save();
-        return res.json(user.cartItems, { message: "Product quantity updated successfully!" });
+        res.json({ cartItems: user.cartItems, message: "Product quantity updated successfully!" });
       } else {
-        return res.status(404).json({ message: "Product not found in cart!" });
+        res.status(404).json({ message: "Product not found in cart!" });
       }
     } catch (error) {
       console.log(error);

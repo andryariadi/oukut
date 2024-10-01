@@ -51,6 +51,51 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
+  removeFromCart: async (productId) => {
+    try {
+      await axios.delete("/cart", { data: { productId } });
+
+      set((prevState) => ({
+        cart: prevState.cart.filter((item) => item._id !== productId),
+      }));
+
+      get().calculateTotals();
+
+      toast.success("Product removed from cart successfully!", {
+        style: toastStyle,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.error || "Something went wrong!", {
+        style: toastStyle,
+      });
+    }
+  },
+
+  updateQuantity: async (productId, quantity) => {
+    console.log({ quantity, productId }, "<---diupdatequantity");
+
+    try {
+      if (quantity === 0) {
+        get().removeFromCart(productId);
+        return;
+      }
+
+      await axios.put(`/cart/${productId}`, { quantity });
+
+      set((prevState) => ({
+        cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
+      }));
+
+      get().calculateTotals();
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.error || "Something went wrong!", {
+        style: toastStyle,
+      });
+    }
+  },
+
   calculateTotals: () => {
     const { cart, coupon } = get();
 
