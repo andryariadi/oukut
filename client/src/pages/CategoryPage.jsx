@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useProductStore } from "../stores/useProductStore";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import CardItems from "../components/CardItems";
+import CardProduct from "../components/CardProduct";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -26,7 +26,7 @@ const CategoryPage = () => {
           {products?.length === 0 && <h2 className="text-3xl font-semibold text-gray-300 text-center col-span-full">No products found</h2>}
 
           {products?.map((product) => (
-            <CardItems key={product._id} product={product} />
+            <CardProduct key={product._id} product={product} />
           ))}
         </motion.div>
       </div>

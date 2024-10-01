@@ -15,6 +15,8 @@ const Navbar = () => {
 
   const { cart } = useCartStore();
 
+  // console.log(cart, "<---dinavbar1");
+
   const handleMouseEnter = (icon) => {
     setHoveredIcon(icon);
   };
@@ -57,13 +59,15 @@ const Navbar = () => {
             {/* Shopping Cart Icon with Tooltip */}
             {user && (
               <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter("cart")} onMouseLeave={handleMouseLeave}>
-                <Link to="/" className="hover:scale-110 transition-all duration-300">
+                <Link to="/cart" className="hover:scale-110 transition-all duration-300">
                   <PiShoppingCartSimple size={26} />
                 </Link>
                 {hoveredIcon === "cart" && <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-emerald-700 text-white text-sm rounded px-2 py-1 shadow-lg z-10">Cart</div>}
-                <div className="absolute -top-2 -right-2 bg-rose-600 size-5 flex items-center justify-center rounded-full">
-                  <span className="text-sm text-white">{cart.length}</span>
-                </div>
+                {cart.length > 0 && (
+                  <div className="absolute -top-2 -right-2 bg-rose-600 size-5 flex items-center justify-center rounded-full">
+                    <span className="text-sm text-white">{cart.length}</span>
+                  </div>
+                )}
               </div>
             )}
 

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { toastStyle } from "../helper/toastStyle";
 import { useCartStore } from "../stores/useCartStore";
 
-const CardItems = ({ product }) => {
+const CardProduct = ({ product }) => {
   const { user } = useUserStore();
   const { addToCart } = useCartStore();
 
@@ -35,7 +35,7 @@ const CardItems = ({ product }) => {
         </div>
       </div>
       <div className="image bg-[#1a1a1a] flex items-center justify-center rounded-tr-[30px] overflow-hidden">
-        <img src={product.image} alt={product.name} className={`w-[90%] max-h-[20rem] ${category === "shoes" ? "hover:rotate-[-25deg] hover:scale-105" : ""} transition-all duration-300 ease-out`} />
+        <img src={product.image} alt={product.name} loading="lazy" className={`w-[90%] max-h-[20rem] ${category === "shoes" ? "hover:rotate-[-25deg] hover:scale-105" : ""} transition-all duration-300 ease-out`} />
       </div>
       <div className="info bg-[#1a1a1a] text-center px-10">
         <p className="title text-[1.5em] whitespace-nowrap">{product.name}</p>
@@ -53,4 +53,4 @@ const CardItems = ({ product }) => {
   );
 };
 
-export default CardItems;
+export default CardProduct;
