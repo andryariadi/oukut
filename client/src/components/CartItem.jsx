@@ -9,7 +9,7 @@ const CartItem = ({ item }) => {
   console.log(item, "<---dicartItem");
 
   return (
-    <div className="max-w-2xl p-5 bg-gray-800 border border-gray-700 rounded-2xl shadow-xl flex items-center justify-between">
+    <div className="p-5 bg-gray-800 border border-gray-700 rounded-2xl shadow-xl flex items-center justify-between">
       {/* Left */}
       <div className="flex items-center gap-5">
         <div className="b-amber-500 max-w-max rounded-full border border-gray-700 overflow-hidden">

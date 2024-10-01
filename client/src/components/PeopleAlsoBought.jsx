@@ -1,5 +1,5 @@
 const PeopleAlsoBought = () => {
-  return <div>PeopleAlsoBought</div>;
+  return <div className="bg-amber-700 max-w-2xl">PeopleAlsoBought</div>;
 };
 
 export default PeopleAlsoBought;
