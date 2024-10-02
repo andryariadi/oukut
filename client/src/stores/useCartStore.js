@@ -113,6 +113,6 @@ export const useCartStore = create((set, get) => ({
   },
 
   clearCart: () => {
-    set({ cart: [], coupon: null, total: 0, subtotal: 0, isCouponApplied: false });
+    set({ cart: [], coupon: null, total: 0, subtotal: 0 });
   },
 }));
