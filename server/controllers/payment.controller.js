@@ -1,5 +1,6 @@
 import { stripe } from "../libs/stripe.js";
 import Coupon from "../models/coupon.model.js";
+import Order from "../models/order.model.js";
 
 class Controller {
   static async createCheckoutSession(req, res) {
