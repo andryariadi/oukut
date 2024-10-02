@@ -75,7 +75,7 @@
 
 @container style(--isGlasses:true) {
   .card::after {
-    content: "Glasses";
+    content: url("/sunglasses.png");
   }
 
   .card .more {
@@ -105,7 +105,7 @@
 
 @container style(--isBags:true) {
   .card::after {
-    content: "Bags";
+    content: url("/bags.png");
   }
 
   .card .more {
