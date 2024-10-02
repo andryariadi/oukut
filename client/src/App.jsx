@@ -24,8 +24,9 @@ function App() {
   }, [checkAuth]);
 
   useEffect(() => {
+    if (!user) return;
     getCartItems();
-  }, [getCartItems]);
+  }, [getCartItems, user]);
 
   // useEffect(() => {
   //   if (user === null && !checkingAuth) {

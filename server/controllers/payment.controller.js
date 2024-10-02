@@ -14,7 +14,7 @@ class Controller {
       let totalAmount = 0;
 
       const lineItems = products.map((product) => {
-        const amount = Math.random(product.price * 100); // stripe wants u to send in the format of cents
+        const amount = Math.round(product.price * 100); // stripe wants u to send in the format of cents
         totalAmount += amount * product.quantity;
 
         return {
@@ -26,6 +26,7 @@ class Controller {
             },
             unit_amount: amount,
           },
+          quantity: product.quantity || 1,
         };
       });
 
@@ -48,7 +49,7 @@ class Controller {
         discounts: coupon
           ? [
               {
-                coupon: await createStripeCoupon(coupon.discountPercentage),
+                coupon: await Controller.createStripeCoupon(coupon.discountPercentage),
               },
             ]
           : [],
@@ -66,13 +67,13 @@ class Controller {
       });
 
       if (totalAmount >= 20000) {
-        await this.createNewCoupon(user._id);
+        await Controller.createNewCoupon(user._id);
       }
 
       res.status(200).json({ id: session.id, totalAmount: totalAmount / 100 });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal server error!", error: error.message });
+      res.status(500).json({ message: "Internal server error in Payments Controller!", error: error.message });
     }
   }
 
