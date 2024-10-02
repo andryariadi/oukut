@@ -43,7 +43,7 @@ const PurchaseSuccessPage = () => {
 
   if (error) return `Error: ${error}`;
   return (
-    <div className="bg-sky-700 min-h-[calc(100vh-5rem)] flex items-center justify-center">
+    <div className="b-sky-700 min-h-[calc(100vh-5rem)] flex items-center justify-center">
       <Confetti width={window.innerWidth} height={window.innerHeight} gravity={0.1} style={{ zIndex: 99 }} numberOfPieces={700} recycle={false} />
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-lg p-10 space-y-5 bg-gray-800 border border-gray-700 rounded-2xl shadow-xl">

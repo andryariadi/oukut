@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useCartStore } from "../stores/useCartStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "../libs/axios";
 
@@ -11,19 +11,27 @@ const stripePromise = loadStripe("pk_test_51Q1yuQHO46b4cr2TKJnNnF3icZRF6gn2R07Qq
 const OrderSummary = () => {
   const [inputCode, setInputCode] = useState("");
 
-  const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore();
+  const { total, subtotal, coupon, isCouponApplied, cart, getMyCoupon, applyCoupon, removeCoupon } = useCartStore();
+
   const savings = subtotal - total;
-  //   const savings = 100;
 
   const formattedTotal = total.toFixed(2);
   const formattedSubtotal = subtotal.toFixed(2);
   const formattedSavings = savings.toFixed(2);
 
+  useEffect(() => {
+    getMyCoupon();
+  }, [getMyCoupon]);
+
+  useEffect(() => {
+    if (coupon) setInputCode(coupon.code);
+  }, [coupon]);
+
   const handlePayment = async () => {
     const stripe = await stripePromise;
     const res = await axios.post("/payments/create-checkout-session", {
       products: cart,
-      coupon: coupon ? coupon.code : null,
+      couponCode: coupon ? coupon.code : null,
     });
 
     const session = res.data;
@@ -38,9 +46,18 @@ const OrderSummary = () => {
     console.log({ res, stripe, result }, "<---dihandlePayment");
   };
 
-  const handleApplyCoupon = () => {};
+  const handleApplyCoupon = () => {
+    if (!inputCode) return;
+    applyCoupon(inputCode);
+  };
 
-  const handleRemoveCoupon = () => {};
+  const handleRemoveCoupon = async () => {
+    await removeCoupon();
+    setInputCode("");
+  };
+
+  console.log({ savings }, "<---disavings");
+
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="b-green-800 space-y-5 w-full max-w-md">
       {/* Order Summary */}
@@ -50,24 +67,26 @@ const OrderSummary = () => {
           <h2 className="text-xl font-semibold text-emerald-400">Order Summary</h2>
 
           {/* Original Price */}
-          <div className="flex items-center justify-between py-3 border-b border-gray-700">
-            <span className="text-gray-400">Original price</span>
-            <span>${formattedSubtotal}</span>
+          <div className="flex flex-col gap-2 py-3 border-b border-gray-700 text-gray-400 text-base">
+            <div className="flex items-center justify-between w-full">
+              <span className="text-gray-400">Original price</span>
+              <span className="text-white">${formattedSubtotal}</span>
+            </div>
+
+            {savings > 0 && (
+              <dl className="flex items-center justify-between gap-4">
+                <dt>Savings</dt>
+                <dd className="text-base font-medium text-rose-500">-${formattedSavings}</dd>
+              </dl>
+            )}
+
+            {coupon && isCouponApplied && (
+              <dl className="flex items-center justify-between gap-4">
+                <dt>Coupon ({coupon.code})</dt>
+                <dd className="text-base font-medium text-emerald-400">-{coupon.discountPercentage}%</dd>
+              </dl>
+            )}
           </div>
-
-          {savings > 0 && (
-            <dl className="flex items-center justify-between gap-4">
-              <dt className="text-base font-normal text-gray-300">Savings</dt>
-              <dd className="text-base font-medium text-emerald-400">-${formattedSavings}</dd>
-            </dl>
-          )}
-
-          {coupon && isCouponApplied && (
-            <dl className="flex items-center justify-between gap-4">
-              <dt className="text-base font-normal text-gray-300">Coupon ({coupon.code})</dt>
-              <dd className="text-base font-medium text-emerald-400">-{coupon.discountPercentage}%</dd>
-            </dl>
-          )}
 
           {/* Total Price */}
           <div className="flex items-center justify-between py-3">
@@ -120,26 +139,35 @@ const OrderSummary = () => {
           Apply Code
         </motion.button>
 
-        <div className="b-amber-500 space-y-2">
-          <h3 className="text-base font-medium text-gray-300">Applied Coupon</h3>
+        {/* Remove Coupon */}
+        {coupon && isCouponApplied && (
+          <div className="b-amber-500 space-y-2">
+            <h3 className="text-base font-medium text-gray-300">Applied Coupon</h3>
 
-          <p className="mt-2 text-sm text-gray-400">% off</p>
+            <p className="mt-2 text-sm text-gray-400">
+              {coupon.code} - {coupon.discountPercentage}% off
+            </p>
 
-          <motion.button
-            type="button"
-            className="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold rounded-lg shadow-lg hover:from-red-700 hover:to-rose-800 transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleRemoveCoupon}
-          >
-            Remove Coupon
-          </motion.button>
-        </div>
+            <motion.button
+              type="button"
+              className="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold rounded-lg shadow-lg hover:from-red-700 hover:to-rose-800 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRemoveCoupon}
+            >
+              Remove Coupon
+            </motion.button>
+          </div>
+        )}
 
-        <div className="">
-          <h3 className="text-base font-medium text-gray-300">Your Available Coupon:</h3>
-          <p className="mt-2 text-sm text-gray-400">% off</p>
-        </div>
+        {coupon && (
+          <div className="">
+            <h3 className="text-base font-medium text-gray-300">Your Available Coupon:</h3>
+            <p className="mt-2 text-sm text-gray-400">
+              {coupon.code} - {coupon.discountPercentage}% off
+            </p>
+          </div>
+        )}
       </div>
     </motion.div>
   );
