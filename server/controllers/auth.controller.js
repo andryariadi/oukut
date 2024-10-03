@@ -90,13 +90,13 @@ class Controller {
 
       if (!refreshToken) return res.status(401).json({ message: "No refresh token provided!" });
 
-      const decoed = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+      const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-      const storedToken = await redis.get(`refreshToken:${decoed.userId}`);
+      const storedToken = await redis.get(`refreshToken:${decoded.userId}`);
 
       if (storedToken !== refreshToken) return res.status(401).json({ message: "Invalid refresh token!" });
 
-      const accessToken = jwt.sign({ userId: decoed.userId }, process.env.ACCESS_TOKEN_SECRET, {
+      const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "15m",
       });
 
