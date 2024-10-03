@@ -63,11 +63,11 @@ const PurchaseSuccessPage = () => {
         <div className="space-y-3 p-5 rounded-lg bg-gray-700 text-sm text-gray-400">
           <div className="flex items-center justify-between">
             <span>Order number</span>
-            <span className="text-emerald-400">1234</span>
+            <span className="text-emerald-400">#12345</span>
           </div>
           <div className="flex items-center justify-between">
             <span>Estimasi delivery</span>
-            <span className="text-emerald-400">we235</span>
+            <span className="text-emerald-400">3-5 business days</span>
           </div>
         </div>
 

@@ -17,7 +17,7 @@ class Controller {
       },
     ]);
 
-    const [totalSales, totalRevenue] = salesData[0] || { totalSales: 0, totalRevenue: 0 };
+    const { totalSales, totalRevenue } = salesData[0] || { totalSales: 0, totalRevenue: 0 };
 
     return {
       users: totalUsers,
@@ -57,7 +57,7 @@ class Controller {
       // 	},
       // ]
 
-      const dateArray = getDatesInRange(startDate, endDate);
+      const dateArray = Controller.getDatesInRange(startDate, endDate);
       // console.log(dateArray) // ['2024-08-18', '2024-08-19', ... ]
 
       return dateArray.map((date) => {

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const CategoryItems = ({ category }) => {
   return (
-    <div className="p-3 hover:bg-emerald-800 transition-all duration-300 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-5">
+    <div className="p-3 hover:bg-emerald-800 transition-all duration-300 rounded-[20px] bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-5">
       <div className="relative h-80 w-full rounded-lg overflow-hidden group">
         <Link to={`/category${category.href}`}>
           <div className="w-full h-full">
