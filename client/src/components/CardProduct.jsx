@@ -24,7 +24,7 @@ const CardProduct = ({ product }) => {
   };
 
   return (
-    <article className="card b-rose-700 relative text-[#eee] w-[320px]" style={{ [customPropertyName]: "true" }}>
+    <article className="card b-rose-700 relative text-[#eee] w-[320px] flex-shrink-0" style={{ [customPropertyName]: "true" }}>
       <div className="author bg-[#1a1a1a] w-[60%] h-[70px] grid grid-cols-[50px_1fr] gap-[20px] p-[10px] rounded-t-[30px]">
         <div>
           <img src="/faviconn.svg" alt="Icon" className="w-full" />
