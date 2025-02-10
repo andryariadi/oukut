@@ -45,6 +45,8 @@ class Controller {
             description: 1,
             image: 1,
             price: 1,
+            stock: 1,
+            category: 1,
             category: 1,
           },
         },
@@ -70,8 +72,25 @@ class Controller {
     }
   }
 
+  static async getProductsById(req, res) {
+    const { productId } = req.params;
+
+    try {
+      const product = await Product.findById({ _id: productId });
+
+      if (!product) {
+        return res.status(404).json({ message: "Product not found!" });
+      }
+
+      res.status(200).json({ product });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error!", error: error.message });
+    }
+  }
+
   static async createProduct(req, res) {
-    const { name, description, price, category, image } = req.body;
+    const { name, description, price, category, stock, image } = req.body;
 
     try {
       let cloudianryResponse = null;
@@ -86,6 +105,7 @@ class Controller {
         name,
         description,
         price,
+        stock,
         image: cloudianryResponse?.secure_url ? cloudianryResponse?.secure_url : "",
         category,
       });

@@ -16,5 +16,6 @@ export const productShema = z.object({
   name: z.string().min(1, { message: "Product name is required!" }),
   description: z.string().min(1, { message: "Product description is required!" }),
   price: z.string().min(1, { message: "Product price is required!" }),
+  stock: z.string().min(1, { message: "Product stock is required!" }),
   category: z.string().min(1, { message: "Product category is required!" }),
 });

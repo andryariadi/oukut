@@ -97,14 +97,14 @@ class Controller {
       if (storedToken !== refreshToken) return res.status(401).json({ message: "Invalid refresh token!" });
 
       const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "15m",
+        expiresIn: "1h",
       });
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
+        maxAge: 60 * 60 * 1000,
       });
 
       res.status(200).json({ accessToken, message: "Refreshed access token successfully!" });

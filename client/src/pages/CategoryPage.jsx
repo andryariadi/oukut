@@ -7,6 +7,10 @@ import CardProduct from "../components/CardProduct";
 const CategoryPage = () => {
   const { category } = useParams();
 
+  const params = useParams();
+
+  console.log({ params }, "<---diparams");
+
   const { fetchProductsByCategory, products } = useProductStore();
 
   useEffect(() => {

@@ -23,6 +23,8 @@ const CardProduct = ({ product }) => {
     }
   };
 
+  console.log({ product }, "<---cardProduct");
+
   return (
     <article className="card b-rose-700 relative text-[#eee] w-[320px] flex-shrink-0" style={{ [customPropertyName]: "true" }}>
       <div className="author bg-[#1a1a1a] w-[60%] h-[70px] grid grid-cols-[50px_1fr] gap-[20px] p-[10px] rounded-t-[30px]">
@@ -35,7 +37,7 @@ const CardProduct = ({ product }) => {
         </div>
       </div>
 
-      <div className="image bg-[#1a1a1a] max-h-[18rem] flex items-center justify-center rounded-tr-[30px] overflow-hidden">
+      <div className="image bg-[#1a1a1a] min-h-[18rem] flex items-center justify-center rounded-tr-[30px] overflow-hidden">
         <img src={product.image} alt={product.name} loading="lazy" className={`w-[90%] max-h-[20rem] object-cover  ${category === "shoes" ? "hover:rotate-[-25deg] hover:scale-105" : ""} transition-all duration-300 ease-out`} />
       </div>
 

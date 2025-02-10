@@ -19,19 +19,27 @@ const CartItem = ({ item }) => {
           <h2 className="text-xl font-semibold">{item.name}</h2>
           <p className="text-sm text-gray-400">{item.description}</p>
           <span className="text-emerald-500 text-base font-bold">${item.price}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-400">Stock</span>
+            <span className="text-rose-500 text-sm font-bold">{item.stock}</span>
+          </div>
         </div>
       </div>
+
       {/* Right */}
       <div className="b-rose-700 flex flex-col gap-6">
         <button onClick={() => removeFromCart(item._id)} className="self-end">
           <PiTrashSimpleLight size={22} className="text-rose-500 hover:scale-110 transition-all duration-300" />
         </button>
+
         <div className="p-1 border border-gray-700 rounded-2xl shadow-xl flex items-center gap-2">
-          <button onClick={() => updateQuantity(item._id, item.quantity - 1)}>
+          <button onClick={() => updateQuantity(item._id, item.quantity - 1, item.stock + 1)} disabled={item.quantity === 0} className={`${item.quantity === 0 ? "text-gray-500" : "text-white"}`}>
             <HiMiniMinusSmall size={23} />
           </button>
+
           <span className="text-sm">{item.quantity}</span>
-          <button onClick={() => updateQuantity(item._id, item.quantity + 1)}>
+
+          <button onClick={() => updateQuantity(item._id, item.quantity + 1, item.stock - 1)} disabled={item.stock === 0} className={`${item.stock === 0 ? "text-gray-500" : "text-white"}`}>
             <BsPlus size={22} />
           </button>
         </div>

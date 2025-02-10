@@ -38,10 +38,36 @@ export const useCartStore = create((set, get) => ({
       set((prevState) => {
         const existingItem = prevState.cart.find((item) => item._id === product._id);
 
-        const newCart = existingItem ? prevState.cart.map((item) => (item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item)) : [...prevState.cart, { ...product, quantity: 1 }];
+        const newCart = existingItem
+          ? prevState.cart.map((item) => (item._id === product._id ? { ...item, quantity: item.quantity + 1, stock: item.stock - 1 } : item))
+          : [...prevState.cart, { ...product, quantity: 1, stock: product.stock - 1 }];
 
         return { cart: newCart };
       });
+
+      get().calculateTotals();
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.error || "Something went wrong!", {
+        style: toastStyle,
+      });
+    }
+  },
+
+  updateQuantity: async (productId, quantity, stock) => {
+    console.log({ quantity, productId }, "<---diupdatequantity");
+
+    try {
+      await axios.put(`/cart/${productId}`, { quantity, stock });
+
+      if (quantity === 0) {
+        get().removeFromCart(productId);
+        return;
+      } // Otomatic remove from cart
+
+      set((prevState) => ({
+        cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity, stock } : item)),
+      }));
 
       get().calculateTotals();
     } catch (error) {
@@ -65,30 +91,6 @@ export const useCartStore = create((set, get) => ({
       toast.success("Product removed from cart successfully!", {
         style: toastStyle,
       });
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.error || "Something went wrong!", {
-        style: toastStyle,
-      });
-    }
-  },
-
-  updateQuantity: async (productId, quantity) => {
-    console.log({ quantity, productId }, "<---diupdatequantity");
-
-    try {
-      if (quantity === 0) {
-        get().removeFromCart(productId);
-        return;
-      }
-
-      await axios.put(`/cart/${productId}`, { quantity });
-
-      set((prevState) => ({
-        cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
-      }));
-
-      get().calculateTotals();
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error || "Something went wrong!", {

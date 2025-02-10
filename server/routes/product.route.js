@@ -8,9 +8,11 @@ router.get("/", protectRoute, adminRoute, Controller.getAllProducts);
 
 router.get("/featured", Controller.getFeaturedProducts);
 
+router.get("/recommendations", Controller.getRecomendedProducts);
+
 router.get("/category/:category", Controller.getProductsByCategory);
 
-router.get("/recommendations", Controller.getRecomendedProducts);
+router.get("/:productId", Controller.getProductsById);
 
 router.post("/", protectRoute, adminRoute, Controller.createProduct);
 

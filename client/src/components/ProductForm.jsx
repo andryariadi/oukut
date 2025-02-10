@@ -29,6 +29,7 @@ const ProductForm = () => {
   const dataName = { ...register("name") };
   const dataDescription = { ...register("description") };
   const dataPrice = { ...register("price") };
+  const dataStock = { ...register("stock") };
   const dataCategory = { ...register("category") };
 
   const handleImageChange = (e) => {
@@ -87,6 +88,11 @@ const ProductForm = () => {
 
             <div className="relative">
               <InputField type="number" placeholder="Price" propData={dataPrice} />
+              {errors.price && <p className="text-red-500 text-sm absolute -bottom-6">{errors.price.message}</p>}
+            </div>
+
+            <div className="relative">
+              <InputField type="number" placeholder="Stock" propData={dataStock} />
               {errors.price && <p className="text-red-500 text-sm absolute -bottom-6">{errors.price.message}</p>}
             </div>
 
